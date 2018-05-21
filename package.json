@@ -7,9 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "pug-plain-loader": "^1.0.0",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.0.18",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -17,6 +19,7 @@
     "@vue/cli-plugin-pwa": "^3.0.0-beta.10",
     "@vue/cli-service": "^3.0.0-beta.10",
     "node-sass": "^4.7.2",
+    "pug": "^2.0.3",
     "sass-loader": "^6.0.6",
     "vue-template-compiler": "^2.5.13"
   },
