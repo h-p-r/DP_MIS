@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Home from './components/Home.vue'
 import SignIn from './components/SignIn.vue'
 import Company from './components/Company.vue'
-// import About from './views/About.vue'
+import Companies from './components/Companies.vue'
+
 
 Vue.use(Router)
 
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/companies',
+      name: 'companies',
+      component: Companies
     },
     {
       path: '/companies/:id',
@@ -25,5 +31,6 @@ export default new Router({
       name: 'signin',
       component: SignIn
     }
-  ]
+  ],
+  mode: "history"
 })
