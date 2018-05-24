@@ -15,11 +15,12 @@
           v-icon(left='', dark='') {{ item.icon }}
           |           {{ item.title }}
         v-menu(v-if='userIsAuthenticated',transition='slide-x-transition', bottom='', left)
-          v-btn.secondary.tl-avatar(slot='activator', dark='')
-            | AB
+          v-avatar.secondary.tl-avatar.ml-2(size='35px',color='white',slot='activator', dark='') 
+            strong JD
           v-list
-            v-list-tile
+            v-list-tile.grey.lighten-3
               v-list-tile-title.text-xs-center John Doe
+            v-divider
             v-list-tile(@click='alrt("fd")')
               v-list-tile-title
                 v-icon.mr-2 person
@@ -32,12 +33,13 @@
         //-   v-icon(left='', dark='') exit_to_app
         //-   |           Logout
     v-navigation-drawer(temporary='', absolute, v-model='sideNav')
-      v-list.pa-1
+      v-list.pa-1.grey.lighten-3(v-if='userIsAuthenticated')
         v-list-tile(avatar='')
-          v-list-tile-avatar
-            img(src='https://randomuser.me/api/portraits/men/85.jpg')
+          v-avatar.secondary.mr-3(size='40px',color='white',style='box-shadow: 0 0 0px 2px rgba(0,0,0,0.7); cursor: pointer', @click='alrt("asdf")') 
+            strong JD
           v-list-tile-content
-            v-list-tile-title John Leider
+            v-list-tile-title John Doe
+      v-divider(v-if='userIsAuthenticated')
       v-list
         v-list-tile(v-for='item in menuItems', :key='item.title', :to='item.link')
           v-list-tile-action
@@ -53,8 +55,8 @@
       v-card.flex(flat='', tile='')
         v-card-title.grey.darken-3.white--text
           v-layout
-            v-flex(xs6='')
-              strong.subheading.my-auto Get connected with us on social networks!
+            v-flex.pa-3(xs6='')
+              strong.subheading Get connected with us on social networks!
             v-flex.text-xs-right(xs6='')
               v-btn.mx-3(v-for='icon in icons', :key='icon', icon='', dark='')
                 v-icon(size='24px') {{ icon }}
@@ -115,7 +117,7 @@
         return menuItems
       },
       userIsAuthenticated () {
-        return true;
+        return false;
         // return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
     },
@@ -134,13 +136,9 @@
   @import './stylus/main'
 
   .tl-avatar {
-    min-width: 2.8rem !important
-    min-height: 2.8rem !important
-    width: 2.8rem !important
-    height: 2.8rem !important
-    border-radius: 50%
     position: relative
     top: 50%
     transform: translateY(-50%)
+    box-shadow: 0 0 0px 2px rgba(255,255,255,0.8)
   }
 </style>
