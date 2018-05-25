@@ -4,6 +4,7 @@ import Home from './components/Home.vue'
 import SignIn from './components/SignIn.vue'
 import Company from './components/Company.vue'
 import Companies from './components/Companies.vue'
+import CompanyNew from './components/CreateCompany.vue'
 
 
 Vue.use(Router)
@@ -30,6 +31,11 @@ export default new Router({
       path: '/signin',
       name: 'signin',
       component: SignIn
+    },
+    {
+      path: '/company/new',
+      name: 'newcompany',
+      component: CompanyNew
     }
   ],
   mode: "history"

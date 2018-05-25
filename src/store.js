@@ -36,10 +36,23 @@ export default new Vuex.Store({
     error: null
   },
   mutations: {
-
+    createCompany (state, payload) {
+      state.loadedComapanies.push(payload)
+    }
   },
   actions: {
-
+    createCompany ({commit}, payload) {
+      const company = {
+        title: payload.cname,
+        imageUrl: payload.imgurl,
+        description: payload.desc,
+        date: payload.date,
+        location: 'India',
+        id: 'anjnsjsdsd9829323'    //temporary id for now
+      }
+      //store it to firebase and get an id
+      commit('createCompany', company)
+    }
   },
   getters: {
     loadedComapanies (state) {
