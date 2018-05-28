@@ -105,25 +105,25 @@
     computed: {
       menuItems () {
         let menuItems = [
-          {icon: 'store', title: 'Companies', link: '/companies'},
+          {icon: 'face', title: 'Sign up', link: '/signup'},
           {icon: 'lock_open', title: 'Sign in', link: '/signin'}
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'supervisor_account', title: 'Dashboard', link: '/meetups'},
-            {icon: 'room', title: 'Add Company', link: '/company/new'}
+            {icon: 'business', title: 'View Companies', link: '/companies'},
+            {icon: 'add_box', title: 'Add New Company', link: '/company/new'},
+            {icon: 'person', title: 'Profile', link: '/profile'}
           ]
         }
         return menuItems
       },
       userIsAuthenticated () {
-        return false;
-        // return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
     },
     methods: {
       onLogout () {
-        // this.$store.dispatch('logout')
+        this.$store.dispatch('logout')
       },
       alrt(msg) {
         alert(msg);
