@@ -1,114 +1,152 @@
 <template>
-    <v-container>
-        <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-                <h2 class="primary--text">Create New Company</h2>
+  <v-container>
+    <v-layout row>
+      <v-flex xs12 sm7 offset-sm3>
+        <h4>Create a new Company</h4>
+      </v-flex>
+    </v-layout>
+    <v-layout row>
+      <v-flex xs12>
+        <form @submit.prevent="onCreateCompany">
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <v-text-field
+                name="title"
+                label="Title"
+                id="title"
+                v-model="title"
+                required></v-text-field>
             </v-flex>
-        </v-layout>
-        <v-layout row>
-            <v-flex xs12>
-                
-                <form @submit.prevent="oncreateCompany">
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <v-text-field
-                            name="Company Name"
-                            label="Company Name"
-                            id="cname"
-                            v-model="cname"
-                            required></v-text-field>
-                        </v-flex>
-                    </v-layout>
-
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <v-text-field
-                            name="Image URL"
-                            label="Image URL"
-                            id="imgurl"
-                            v-model="imgurl"
-                            required></v-text-field>
-                        </v-flex>
-                    </v-layout>
-
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <img :src="imgurl" height="200">
-                        </v-flex>
-                    </v-layout>
-
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <v-text-field
-                            name="Description"
-                            label="Description"
-                            id="desc"
-                            v-model="desc"
-                            multi-line
-                            required></v-text-field>
-                        </v-flex>
-                    </v-layout>
-
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <v-text-field
-                            name="Contact Details"
-                            label="Contact Details"
-                            id="contact"
-                            v-model="contact"
-                            multi-line
-                            required></v-text-field>
-                        </v-flex>
-                    </v-layout>
-
-                    <v-layout row>
-                        <v-flex xs12 sm6 offset-sm3>
-                            <v-btn color="primary" 
-                            :disabled="!formIsvalid"
-                            type="submit">
-                                Create Company
-                            </v-btn> 
-                        </v-flex>
-                    </v-layout>
-                </form>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <v-text-field
+                name="location"
+                label="Location"
+                id="location"
+                v-model="location"
+                required></v-text-field>
             </v-flex>
-        </v-layout>
-    </v-container>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <v-text-field
+                name="logUrl"
+                label="Logo URL"
+                id="log-url"
+                v-model="logUrl"
+                required></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <img :src="logUrl" height="150">
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <v-text-field
+                name="imageUrl"
+                label="Image URL"
+                id="image-url"
+                v-model="imageUrl"
+                required></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <img :src="imageUrl" height="150">
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+              <v-flex xs12 sm7 offset-sm3>
+                <label >Description*</label>
+                <wysiwyg v-model="description" />
+              </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <v-select
+              v-model="chips"
+              label="Technology Description Tags"
+              chips
+              tags
+              solo
+              required
+              prepend-icon="filter_list"
+              append-icon=""
+              clearable
+              >
+                <template slot="selection" slot-scope="data">
+                  <v-chip
+                  :selected="data.selected"
+                  close
+                  @input="remove(data.item)"
+                  >
+                    <strong>{{ data.item }}</strong>&nbsp;
+                  </v-chip>
+                </template>
+              </v-select>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm7 offset-sm3>
+              <v-btn
+                class="primary"
+                :disabled="!formIsValid"
+                type="submit">Create Company</v-btn>
+            </v-flex>
+          </v-layout>
+        </form>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-export default {
+  export default {
     data () {
-       return {
-           cname: '',
-           imgurl: '',
-           desc: '',
-           contact: ''
-       }
+      return {
+        title: '',
+        location: '',
+        logUrl: '',
+        imageUrl: '',
+        description: '',
+        date: new Date(),
+        chips: []
+      }
     },
-
     computed: {
-        formIsvalid () {
-            return this.cname != '' && 
-            this.imgurl != '' && 
-            this.desc != '' && 
-            this.contact != ''
-        }
+      formIsValid () {
+        return this.title !== '' &&
+          this.location !== '' &&
+          this.logUrl !== '' &&
+          this.imageUrl !== '' &&
+          this.description !== '' &&
+          this.chips.length != 0
+      }
     },
     methods: {
-        oncreateCompany () {
-            if (!this.formIsvalid){
-                return
-            }
-            const companydata = {
-                cname: this.cname,
-                imgurl: this.imgurl,
-                desc: this.desc,
-                date: new Date()
-            }
-            this.$store.dispatch('createCompany', companydata)
-            this.$router.push('/companies')
+      remove (item) {
+        this.chips.splice(this.chips.indexOf(item), 1)
+        this.chips = [...this.chips]
+      },
+      onCreateCompany () {
+        if (!this.formIsValid) {
+          return
         }
+        const companyData = {
+          title: this.title,
+          location: this.location,
+          logUrl: this.logUrl,
+          imageUrl: this.imageUrl,
+          description: this.description,
+          chips: this.chips,
+          date: this.date
+        }
+        this.$store.dispatch('createCompany', companyData)
+        this.$router.push('/companies')
+      }
     }
-}
+  }
 </script>
