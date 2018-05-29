@@ -8,7 +8,7 @@
       v-flex(xs12)
         v-carousel(dark, style='cursor: pointer; height: 50vw; max-height: 500px')
           v-carousel-item(v-for='company in companies', :src='company.imageUrl', :key='company.id', @click.native='onLoadCompany(company.id)')
-            .title.text-xs-center {{ company.title }}
+            .title.text-xs-center {{ company.cname }}
     v-layout.mt-2(row='', wrap='')
       v-flex.text-xs-center(xs12='')
         p Join our awesome company!

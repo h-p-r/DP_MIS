@@ -6,25 +6,42 @@
           v-container.pa-2(fluid='')
             v-layout(row='')
               v-card-media
-                img.logo(:src='meetup.imageUrl')
-              v-card-title.pa-1.ml-3(style='align-items: flex-start')
-                h2.black--text {{ meetup.title }}
-      v-layout(row='', wrap='')
-        v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
-          img(:src='meetup.imageUrl', width='100%')
+                img.logo(:src='company.logoUrl')
+              v-layout(column)
+                v-flex(xs12)
+                  v-card-title.pa-1.ml-3(align-start)
+                    .title.black--text {{ company.cname }}
+                v-flex(xs12)
+                  v-layout(row)
+                    v-flex.pa-1.ml-3(xs12,no-wrap,style='overflow-x: auto')
+                      v-chip(disabled v-for='tag in company.tags') {{tag}}
+            v-divider.mt-2
+            v-layout(row='', wrap='')
+              v-flex.secondary.lighten-2.mt-2(xs12='')
+                img(:src='company.imageUrl', width='100%')
+    v-layout(row='', wrap='')
+      v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
+        .subheading.mt-2 About the Company
     v-layout(row='', wrap='')
       v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
         v-card
           v-card-text
-            div {{ meetup.description }}
-            | Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit mollitia itaque consectetur accusamus enim. Eos, accusantium voluptatibus expedita nemo sequi fugiat! Dolorum dignissimos repudiandae nesciunt molestiae soluta quo dolores. Quidem.
+            div.px-3(v-html='company.about')
+    v-layout(row='', wrap='')
+      v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
+        .subheading.mt-2 Description
+    v-layout(row='', wrap='')
+      v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
+        v-card
+          v-card-text
+            div.px-3(v-html='company.description')
 </template>
 
 <script>
   export default {
     props: ['id'],
     computed: {
-      meetup () {
+      company() {
         return this.$store.getters.loadedCompany(this.id)
       }
     }

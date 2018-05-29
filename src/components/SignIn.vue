@@ -11,7 +11,7 @@
               form(@submit.prevent='onSignin')
                 v-layout(row='')
                   v-flex(xs12='')
-                    v-text-field#email(name='email', label='Mail', v-model='email', type='email', required='')
+                    v-text-field#email(name='email', label='E-Mail', v-model='email', type='email', required='')
                 v-layout(row='')
                   v-flex(xs12='')
                     v-text-field#password(name='password', label='Password', v-model='password', type='password', required='')
@@ -45,7 +45,7 @@
     watch: {
       user (value) {
         if (value !== null && value !== undefined) {
-          this.$router.push('/')
+          this.$router.push('/dashboard')
         }
       }
     },

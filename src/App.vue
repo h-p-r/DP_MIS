@@ -21,21 +21,18 @@
             v-list-tile.grey.lighten-3
               v-list-tile-title.text-xs-center John Doe
             v-divider
-            v-list-tile(@click='alrt("fd")')
+            v-list-tile(@click='onProfile')
               v-list-tile-title
                 v-icon.mr-2 person
                 | Profile
-            v-list-tile(@click='')
+            v-list-tile(@click='onLogout')
               v-list-tile-title
                 v-icon.mr-2 exit_to_app
                 | Logout
-        //- v-btn(v-if='userIsAuthenticated', flat='', @click='onLogout')
-        //-   v-icon(left='', dark='') exit_to_app
-        //-   |           Logout
     v-navigation-drawer(temporary='', absolute, v-model='sideNav')
       v-list.pa-1.grey.lighten-3(v-if='userIsAuthenticated')
         v-list-tile(avatar='')
-          v-avatar.secondary.mr-3(size='40px',color='white',style='box-shadow: 0 0 0px 2px rgba(0,0,0,0.7); cursor: pointer', @click='alrt("asdf")') 
+          v-avatar.secondary.mr-3(size='40px',color='white',style='box-shadow: 0 0 0px 2px rgba(0,0,0,0.7); cursor: pointer', @click='onProfile') 
             strong JD
           v-list-tile-content
             v-list-tile-title John Doe
@@ -110,23 +107,25 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'supervisor_account', title: 'Dashboard', link: '/meetups'},
+            {icon: 'supervisor_account', title: 'Dashboard', link: '/dashboard'},
+            {icon: 'store', title: 'Companies', link: '/companies'},
             {icon: 'room', title: 'Add Company', link: '/company/new'}
           ]
         }
         return menuItems
       },
       userIsAuthenticated () {
-        return false;
-        // return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+        // return false;
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
     },
     methods: {
-      onLogout () {
-        // this.$store.dispatch('logout')
+      onLogout() {
+        this.$store.dispatch('logout')
+        this.$router.push('/')
       },
-      alrt(msg) {
-        alert(msg);
+      onProfile() {
+        this.$router.push('/profile')
       }
     }
   }
