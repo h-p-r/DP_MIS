@@ -109,7 +109,7 @@
           menuItems = [
             {icon: 'supervisor_account', title: 'Dashboard', link: '/dashboard'},
             {icon: 'store', title: 'Companies', link: '/companies'},
-            {icon: 'room', title: 'Add Company', link: '/company/new'}
+            {icon: 'add', title: 'Add Company', link: '/company/new'}
           ]
         }
         return menuItems

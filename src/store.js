@@ -67,6 +67,7 @@ export default new Vuex.Store({
               imageUrl: obj[key].imageUrl,
               date: obj[key].date,
               tags: obj[key].tags,
+              contacts: obj[key].contacts,
               creatorId: obj[key].creatorId
             })
           }
@@ -90,6 +91,7 @@ export default new Vuex.Store({
         description: payload.description,
         date: payload.date.toISOString(),
         tags: payload.tags,
+        contacts: payload.contacts,
         creatorId: getters.user.id
       }
       firebase.database().ref('companies').push(company)

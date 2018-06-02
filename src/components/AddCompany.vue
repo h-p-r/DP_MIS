@@ -47,8 +47,32 @@
 									.input-group__messages.input-group__error Max 4 Tags
 						v-layout.mt-2(row='')
 							v-flex(xs12='', sm8='', offset-sm2='')
+								.subheading.subheader-normal Contacts*
+								div
+									v-stepper(v-model='e1')
+										v-stepper-header.contacts-header-scroll(ref='contactsHeader')
+											template(v-for='n in steps')
+												v-stepper-step(:key='`${n}-step`', :step='n', :complete='e1 > n', editable='')
+													| {{ n }}
+												v-divider(v-if='n !== steps', :key='n')
+										v-stepper-items
+											v-stepper-content(v-for='n in steps', :step='n', :key='`${n}-content`')
+												v-card
+													v-text-field(name='pName',v-model='contacts[n-1].pName', label='Person Name', required)
+													v-text-field(name='pDetails', v-model='contacts[n-1].pDetails', label='Details',multi-line)
+													v-card-actions
+														v-btn(flat, color='error', @click='removeContact(contacts[n-1].pKey)')
+															v-icon(left) delete
+															| Delete
+														v-spacer
+														v-btn(color='primary', @click='addPerson')
+															v-icon(left,dark) add
+															| Add
+						v-layout.mt-2(row='')
+							v-flex(xs12='', sm8='', offset-sm2='')
 								.text-xs-right
 									v-btn.accent(:disabled='!formIsValid', type='submit') Add Company
+
 </template>
 
 <script>
@@ -62,7 +86,23 @@
 				about: '',
         description: '',
         date: new Date(),
-        tags: []
+        tags: [],
+				contacts: [
+					{
+						pName: '',
+						pDetails: '',
+						pKey: new Date().getTime()
+					}
+				],
+
+				e1: 1
+      }
+    },
+		watch: {
+      steps (val) {				
+        if (this.e1 > val) {
+          this.e1 = val
+        }
       }
     },
     computed: {
@@ -78,6 +118,9 @@
 			},
 			tagAlert() {
 				return (this.tags.length > 4)
+			},
+			steps() {
+				return this.contacts.length
 			}
     },
     methods: {
@@ -97,16 +140,43 @@
 					about: this.about,
           description: this.description,
           tags: this.tags,
-          date: this.date
+					date: this.date,
+					contacts: this.contacts
         }
         this.$store.dispatch('addCompany', companyData)
         this.$router.push('/dashboard')
-      }
+      },
+      addPerson() {
+				const person = {
+					pName: '',
+					pDetails: '',
+					pKey: new Date().getTime()
+				}
+
+				this.contacts.push(person)
+				setTimeout(() => {
+					var elem=this.$refs.contactsHeader.lastChild.previousSibling
+					elem.click()
+				}, 10);
+			},
+			removeContact(pKey) {
+				if(this.contacts.length==1) {
+					return
+				}
+				this.contacts.splice(this.contacts.findIndex(function(i){
+					return i.pKey == pKey;
+				}), 1); 
+			}
     }
   }
 </script>
 
 <style>
+	.contacts-header-scroll {
+		overflow-x: auto;
+		display: flex;
+		flex-wrap: nowrap;
+	}
 	.subheader-normal {
 		color: rgba(0,0,0,0.54);
 		margin: 10px 0;

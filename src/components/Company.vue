@@ -22,7 +22,7 @@
     v-layout(row='', wrap='')
       v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
         .subheading.mt-2 About the Company
-    v-layout(row='', wrap='')
+    v-layout.mt-2(row='', wrap='')
       v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
         v-card
           v-card-text
@@ -30,11 +30,25 @@
     v-layout(row='', wrap='')
       v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
         .subheading.mt-2 Description
-    v-layout(row='', wrap='')
+    v-layout.mt-2(row='', wrap='')
       v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
         v-card
           v-card-text
             div.px-3(v-html='company.description')
+    v-layout(row='', wrap='')
+      v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
+        .subheading.mt-2 Contacts
+    v-layout(row='', wrap='')
+      v-flex(xs12='', sm10='', md8='', offset-sm1='', offset-md2='')
+        v-container(grid-list-sm fluid)
+          v-layout(wrap='')
+            v-flex(xs12,sm6,v-for='person in company.contacts')
+              v-card
+                v-card-title 
+                  strong {{person.pName}}
+                v-divider
+                v-card-text 
+                  pre(style='white-space:pre-wrap') {{person.pDetails}}
 </template>
 
 <script>
