@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap v-for="company in Companies" :key="company.id" class="mb-2">
+    <v-layout row wrap v-for="company in filteredCompanies" :key="company.id" class="mb-2">
       <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
         <v-card class="info">
           <v-container fluid>
@@ -35,14 +35,12 @@
 
 <script>
   export default {
-    data() {
-      return {
-        
-      }
-    },
+    props: ['sKey'],
     computed: {
-      Companies: function() {
-        return this.$store.getters.loadedCompanies
+      filteredCompanies: function() {
+        return this.$store.getters.loadedCompanies.filter((company)=>{
+            return company.title.toLowerCase().match(this.sKey.toLowerCase())
+        });
         }
     }
   }
