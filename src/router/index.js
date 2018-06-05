@@ -7,6 +7,7 @@ import Profile from '@/components/Profile'
 import Signup from '@/components/Signup'
 import Signin from '@/components/SignIn'
 import Company from '@/components/Company'
+import Search from '@/components/Search'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -34,6 +35,12 @@ export default new Router({
       name: 'Company',
       props: true,
       component: Company
+    },
+    {
+      path: '/search/:sKey',
+      name: 'Search',
+      props: true,
+      component: Search
     },
     {
       path: '/profile',

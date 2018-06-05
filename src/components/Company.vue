@@ -18,7 +18,7 @@
                                   <v-icon left >info</v-icon>
                                   Technology Description
                                 </v-btn>
-                                    <div>{{ company.description }}</div>
+                                    <div class="px-3" v-html="company.description"></div>
                                 </v-card-text>
                                 <v-card-text>
                                     <v-btn flat class="info--text">

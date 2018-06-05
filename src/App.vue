@@ -6,9 +6,9 @@
         router-link(to='/', tag='span', style='cursor: pointer') DP_MIS
       v-spacer
       v-layout(row='')
-        v-flex
-          v-text-field#search(color='white', name='input-1-3', placeholder='Search')
-      v-btn(icon='')
+      v-flex
+          v-text-field#search(color='white', v-model='searchkey', placeholder='Search')
+      v-btn(icon='', @click='search')
         v-icon search
       v-toolbar-items.hidden-xs-only
         v-btn(flat='', v-for='item in menuItems', :key='item.title', :to='item.link')
@@ -88,6 +88,7 @@
   export default {
     data () {
       return {
+        searchkey: '',
         sideNav: false,
         icons: ['fab fa-facebook', 'fab fa-twitter', 'fab fa-instagram'],
         rows: [
@@ -122,6 +123,9 @@
       }
     },
     methods: {
+      search () {
+        this.$router.push({ name: 'Search', params: { sKey: this.searchkey }})
+      },
       onLogout () {
         this.$store.dispatch('logout')
       },
