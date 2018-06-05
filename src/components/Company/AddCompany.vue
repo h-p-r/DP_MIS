@@ -53,7 +53,6 @@
 										v-stepper-header.contacts-header-scroll(ref='contactsHeader')
 											template(v-for='n in steps')
 												v-stepper-step(:key='`${n}-step`', :step='n', :complete='e1 > n', editable='')
-													| {{ n }}
 												v-divider(v-if='n !== steps', :key='n')
 										v-stepper-items
 											v-stepper-content(v-for='n in steps', :step='n', :key='`${n}-content`')

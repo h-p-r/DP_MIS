@@ -6,7 +6,7 @@ import store from './store'
 import colors from 'vuetify/es5/util/colors'
 import wysiwyg from 'vue-wysiwyg'
 import * as firebase from 'firebase'
-import AlertCmp from './components/Alert.vue'
+import AlertCmp from './components/Shared/Alert.vue'
 
 import './registerServiceWorker'
 // import 'vuetify/dist/vuetify.min.css'

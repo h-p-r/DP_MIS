@@ -6,10 +6,11 @@
         router-link(to='/', tag='span', style='cursor: pointer') DP_MIS
       v-spacer
       v-layout(row='')
-        v-flex
-          v-text-field#search(color='white', name='input-1-3', placeholder='Search')
-      v-btn(icon='')
-        v-icon search
+        v-flex#search.mr-2
+          v-select(color='white', auto, dense, :items='sList', append-icon='search' @input='search', v-model='searchKey', placeholder='Search', autocomplete)
+          //- v-text-field#search(color='white', @keyup.enter.native='search' v-model='searchKey' name='input-1-3', placeholder='Search')
+      //- v-btn(icon='', @click='search')
+      //-   v-icon search
       v-toolbar-items.hidden-xs-only
         v-btn(flat='', v-for='item in menuItems', :key='item.title', :to='item.link')
           v-icon(left='', dark='') {{ item.icon }}
@@ -96,7 +97,8 @@
             title: 'Useful Links',
             children: ['Link 1', 'Link 2', 'Link 3', 'About Us']
           }
-        ]
+        ],
+        searchKey:''
       }
     },
     computed: {
@@ -117,6 +119,9 @@
       userIsAuthenticated () {
         // return false;
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      },
+      sList() {        
+        return this.$store.getters.searchlist
       }
     },
     methods: {
@@ -126,6 +131,14 @@
       },
       onProfile() {
         this.$router.push('/profile')
+      },
+      search() {
+        if(this.searchKey!='') {
+          this.$router.push('/search/' + this.searchKey)
+          this.$nextTick(() => {
+            this.searchKey = ''  
+          })
+        }
       }
     }
   }
@@ -139,5 +152,17 @@
     top: 50%
     transform: translateY(-50%)
     box-shadow: 0 0 0px 2px rgba(255,255,255,0.8)
+  }
+
+  #search .input-group__append-ico {
+    display: none
+  }
+
+  .menuable__content__active .white--text{
+    color: #1976d2 !important
+  }
+
+  .input-group--select.input-group--focused.input-group--open .input-group__append-icon:not(.input-group__icon-clearable) {
+    transform: rotate(0)
   }
 </style>

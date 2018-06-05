@@ -25,8 +25,12 @@
   export default {
     computed: {
       companies() {        
-        return this.$store.getters.loadedCompanies;
+        return this.$store.getters.loadedCompanies;                
       }
+    },
+    created() {
+      console.log(this.companies);
+      
     }
   }
 </script>

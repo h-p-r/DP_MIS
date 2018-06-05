@@ -13,6 +13,7 @@ export default new Vuex.Store({
         id: 'afajfjadfaadfa323',
         cname: 'Facetagr',
         date: new Date(),
+        tags: ['uno','dos','tres'],
         location: 'New York',
         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit mollitia itaque consectetur accusamus enim. Eos, accusantium voluptatibus expedita nemo sequi fugiat! Dolorum dignissimos repudiandae nesciunt molestiae soluta quo dolores. Quidem.'
       },
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         id: 'aadsfhbkhlk1241',
         cname: 'IDCUBE',
         date: new Date(),
+        tags: ['uno','dos','tres'],
         location: 'Paris',
         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit mollitia itaque consectetur accusamus enim. Eos, accusantium voluptatibus expedita nemo sequi fugiat! Dolorum dignissimos repudiandae nesciunt molestiae soluta quo dolores. Quidem.'
       }
@@ -175,6 +177,20 @@ export default new Vuex.Store({
         return state.loadedCompanies.find((company) => {
           return company.id === companyId
         })
+      }
+    },
+    searchlist (state) {
+      if(state.loadedCompanies != null) {
+        var sList=[]
+        
+        for(let company of state.loadedCompanies) {
+          sList.push(company.cname)
+      
+          for(let tag of company.tags) {
+            sList.push(tag)
+          }
+        }
+        return sList
       }
     },
     user (state) {
