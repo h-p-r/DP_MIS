@@ -109,9 +109,10 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'supervisor_account', title: 'Dashboard', link: '/dashboard'},
+            {icon: 'dashboard', title: 'Dashboard', link: '/dashboard'},
             {icon: 'store', title: 'Companies', link: '/companies'},
-            {icon: 'add', title: 'Add Company', link: '/company/new'}
+            {icon: 'add', title: 'Add Company', link: '/company/new'},
+            {icon: 'supervisor_account', title: 'DTLO', link: '/dtlo'}
           ]
         }
         return menuItems

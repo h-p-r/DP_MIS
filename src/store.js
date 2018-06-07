@@ -108,6 +108,9 @@ export default new Vuex.Store({
           console.log(error)
         })
     },
+    sendRequest({commit}, payload) {
+      console.log(payload)
+    },
     signUserUp ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')
