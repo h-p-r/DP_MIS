@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './components/Home.vue'
 import SignIn from './components/User/SignIn.vue'
+import DTLO from './components/dtlo.vue'
 import Company from './components/Company/Company.vue'
 import Companies from './components/Company/Companies.vue'
 import AddCompany from './components/Company/AddCompany.vue'
@@ -20,6 +21,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+	{
+      path: '/dtlo',
+      name: 'dtlo',
+      component: DTLO
     },
     {
       path: '/companies',
@@ -44,6 +50,7 @@ export default new Router({
       component: Dashboard,
       beforeEnter: AuthGuard
     },
+	
     {
       path: '/profile',
       name: 'Profile',
