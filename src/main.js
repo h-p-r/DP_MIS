@@ -23,7 +23,7 @@ Vue.use(Vuetify, {
     accent: colors.blue.accent2,
     secondary: colors.grey.lighten1,
     info: colors.yellow.darken2,
-    warning: colors.amber.darken2,
+    warning: colors.amber.darken3,
     error: colors.red.accent4,
     success: colors.green.lighten2
   }

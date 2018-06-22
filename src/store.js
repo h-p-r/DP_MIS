@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
 Vue.use(Vuex)
+var stopwords=["a","a's","able","about","above","according","accordingly","across","actually","after","afterwards","again","against","ain't","all","allow","allows","almost","alone","along","already","also","although","always","am","among","amongst","an","and","another","any","anybody","anyhow","anyone","anything","anyway","anyways","anywhere","apart","appear","appreciate","appropriate","are","aren't","around","as","aside","ask","asking","associated","at","available","away","awfully","b","be","became","because","become","becomes","becoming","been","before","beforehand","behind","being","believe","below","beside","besides","best","better","between","beyond","both","brief","but","by","c","c'mon","c's","came","can","can't","cannot","cant","cause","causes","certain","certainly","changes","clearly","co","com","come","comes","concerning","consequently","consider","considering","contain","containing","contains","corresponding","could","couldn't","course","currently","d","definitely","described","despite","did","didn't","different","do","does","doesn't","doing","don't","done","down","downwards","during","e","each","edu","eg","eight","either","else","elsewhere","enough","entirely","especially","et","etc","even","ever","every","everybody","everyone","everything","everywhere","ex","exactly","example","except","f","far","few","fifth","first","five","followed","following","follows","for","former","formerly","forth","four","from","further","furthermore","g","get","gets","getting","given","gives","go","goes","going","gone","got","gotten","greetings","h","had","hadn't","happens","hardly","has","hasn't","have","haven't","having","he","he's","hello","help","hence","her","here","here's","hereafter","hereby","herein","hereupon","hers","herself","hi","him","himself","his","hither","hopefully","how","howbeit","however","i","i'd","i'll","i'm","i've","ie","if","ignored","immediate","in","inasmuch","inc","indeed","indicate","indicated","indicates","inner","insofar","instead","into","inward","is","isn't","it","it'd","it'll","it's","its","itself","j","just","k","keep","keeps","kept","know","known","knows","l","last","lately","later","latter","latterly","least","less","lest","let","let's","like","liked","likely","little","look","looking","looks","ltd","m","mainly","many","may","maybe","me","mean","meanwhile","merely","might","more","moreover","most","mostly","much","must","my","myself","n","name","namely","nd","near","nearly","necessary","need","needs","neither","never","nevertheless","new","next","nine","no","nobody","non","none","noone","nor","normally","not","nothing","novel","now","nowhere","o","obviously","of","off","often","oh","ok","okay","old","on","once","one","ones","only","onto","or","other","others","otherwise","ought","our","ours","ourselves","out","outside","over","overall","own","p","particular","particularly","per","perhaps","placed","please","plus","possible","presumably","probably","provides","q","que","quite","qv","r","rather","rd","re","really","reasonably","regarding","regardless","regards","relatively","respectively","right","s","said","same","saw","say","saying","says","second","secondly","see","seeing","seem","seemed","seeming","seems","seen","self","selves","sensible","sent","serious","seriously","seven","several","shall","she","should","shouldn't","since","six","so","some","somebody","somehow","someone","something","sometime","sometimes","somewhat","somewhere","soon","sorry","specified","specify","specifying","still","sub","such","sup","sure","t","t's","take","taken","tell","tends","th","than","thank","thanks","thanx","that","that's","thats","the","their","theirs","them","themselves","then","thence","there","there's","thereafter","thereby","therefore","therein","theres","thereupon","these","they","they'd","they'll","they're","they've","think","third","this","thorough","thoroughly","those","though","three","through","throughout","thru","thus","to","together","too","took","toward","towards","tried","tries","truly","try","trying","twice","two","u","un","under","unfortunately","unless","unlikely","until","unto","up","upon","us","use","used","useful","uses","using","usually","uucp","v","value","various","very","via","viz","vs","w","want","wants","was","wasn't","way","we","we'd","we'll","we're","we've","welcome","well","went","were","weren't","what","what's","whatever","when","whence","whenever","where","where's","whereafter","whereas","whereby","wherein","whereupon","wherever","whether","which","while","whither","who","who's","whoever","whole","whom","whose","why","will","willing","wish","with","within","without","won't","wonder","would","wouldn't","x","y","yes","yet","you","you'd","you'll","you're","you've","your","yours","yourself","yourselves","z","zero"]
 
 export default new Vuex.Store({
   state: {
@@ -29,7 +30,8 @@ export default new Vuex.Store({
     ],
     user: null,
     loading: false,
-    error: null
+    error: null,
+    dtloReq: null
   },
   mutations: {
     setLoadedCompanies (state, payload) {
@@ -41,6 +43,9 @@ export default new Vuex.Store({
     setUser (state, payload) {
       state.user = payload
     },
+    setDtloReq(state, payload) {
+      state.dtloReq = payload
+    },
     setLoading (state, payload) {
       state.loading = payload
     },
@@ -49,6 +54,9 @@ export default new Vuex.Store({
     },
     clearError (state) {
       state.error = null
+    },
+    clearDtloReq (state) {
+      state.dtloReq = null
     }
   },
   actions: {
@@ -109,7 +117,7 @@ export default new Vuex.Store({
         })
     },
     sendRequest({commit}, payload) {
-      console.log(payload)
+      commit('setDtloReq', payload)
     },
     signUserUp ({commit}, payload) {
       commit('setLoading', true)
@@ -164,6 +172,9 @@ export default new Vuex.Store({
     },
     clearError ({commit}) {
       commit('clearError')
+    },
+    clearDtloReq ({commit}) {
+      commit('clearDtloReq')
     }
   },
   getters: {
@@ -184,7 +195,9 @@ export default new Vuex.Store({
     },
     searchlist (state) {
       if(state.loadedCompanies != null) {
+        
         var sList=[]
+
         
         for(let company of state.loadedCompanies) {
           sList.push(company.cname)
@@ -192,10 +205,87 @@ export default new Vuex.Store({
           for(let tag of company.tags) {
             sList.push(tag)
           }
+
+          let regex = /(<([^>]+)>)/ig
+          let input=company.description.replace(regex, ' ').toLowerCase()
+          input=input.replace(/\s\s+/g,' ')
+
+          if (!Array.isArray(input)) {
+            // Lazy tokenization by whitespace
+            input = input.split(' ');
+            sList.push(...input.filter(function (word) {
+                return !(stopwords.indexOf(word) > 0)
+            }));
+          } else {
+            sList.push(...input.filter(function (word) {
+                return !(stopwords.indexOf(word) > 0)
+            }));
+          }
         }
+
+        let setList = new Set(sList)
+        sList = Array.from(setList)
+        
         return sList
       }
     },
+    dtloSearchRes (state, getters) {
+      if(state.dtloReq==null)
+        return
+      
+      var req = state.dtloReq.req
+      
+      //  creating search keywords
+      var sList=[]
+
+      // let regex = /(<([^>]+)>)/ig
+      // let input=req.replace(regex, ' ').toLowerCase()
+      let input = req.toLowerCase()
+      // console.log(input);
+      
+      input=input.replace(/\s\s+/g,' ')
+
+      if (!Array.isArray(input)) {
+        // Lazy tokenization by whitespace
+        input = input.split(' ');
+        sList.push(...input.filter(function (word) {
+            return !(stopwords.indexOf(word) > 0)
+        }));
+      } else {
+        sList.push(...input.filter(function (word) {
+            return !(stopwords.indexOf(word) > 0)
+        }));
+      }
+      
+      // console.log(sList);
+      
+
+      //  creating search results
+      return getters.loadedCompanies.filter( (company)=> {
+        
+        let sArr=[]
+        let regex = /(<([^>]+)>)/ig
+        let des = company.description.replace(regex, ' ').toLowerCase()
+        des=des.replace(/\s\s+/g,' ')
+        
+        sArr.push(
+          company.cname.toLowerCase(),
+          ...des.split(' ')
+        )
+        
+        for(let tag of company.tags) {
+          sArr.push(tag.toLowerCase())
+        }
+        
+        
+        // console.log(sArr);
+        
+        return sList.some(function (sKey) {
+          return sArr.indexOf(sKey) >= 0;
+        })
+      })
+      
+    },  
     user (state) {
       return state.user
     },
@@ -204,6 +294,9 @@ export default new Vuex.Store({
     },
     error (state) {
       return state.error
+    },
+    dtloReq(state) {
+      return state.dtloReq
     }
   }
 })

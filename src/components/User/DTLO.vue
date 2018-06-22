@@ -31,12 +31,21 @@
         ]
       }
     },
+    mounted: function() {
+      var reqData = this.$store.getters.dtloReq
+      if(reqData!=null) {
+        this.dunit=reqData.dunit
+        this.req=reqData.req
+        
+        this.$store.dispatch('clearDtloReq')
+      }
+    },
     computed: {
       formIsValid () {
-        return this.dunit !== '' &&
-					this.req !== ''
-			},
-		
+        return this.dunit != '' &&
+          this.dunit != null &&
+					this.req != ''
+			}
     },
     methods: {
       onSendRequest () {
@@ -48,6 +57,7 @@
           req: this.req
         }
         this.$store.dispatch('sendRequest', requestData)
+        this.$router.push('/dtloSearch')
       }
     }
   }

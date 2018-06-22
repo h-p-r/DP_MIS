@@ -27,10 +27,6 @@
       companies() {        
         return this.$store.getters.loadedCompanies;                
       }
-    },
-    created() {
-      console.log(this.companies);
-      
     }
   }
 </script>

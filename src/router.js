@@ -7,6 +7,7 @@ import Company from './components/Company/Company.vue'
 import Companies from './components/Company/Companies.vue'
 import AddCompany from './components/Company/AddCompany.vue'
 import Search from './components/Company/Search.vue'
+import DtloSearch from './components/Company/DtloSearch.vue'
 
 import SignIn from './components/User/SignIn.vue'
 import Dashboard from './components/User/Dashboard.vue'
@@ -60,6 +61,12 @@ export default new Router({
       name: 'dtlo',
       component: DTLO,
       beforeEnter: AuthGuard
+    },
+    {
+      path: '/dtloSearch',
+      name: 'DtloSearch',
+      component: DtloSearch,
+      // beforeEnter: AuthGuard
     },
     {
       path: '/search/:sKey',

@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+Docs
 
 # local env files
 .env.local
@@ -19,6 +20,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
-Docs/companiesassessmentreport.zip
-Docs/companiesassessmentreport/COMPANIES  ABU DHABI MILAN.doc
-Docs/companiesassessmentreport/COMPANIES (3).doc

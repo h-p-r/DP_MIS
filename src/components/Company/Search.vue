@@ -28,8 +28,14 @@
       companies() {       
         return this.$store.getters.loadedCompanies.filter( (company)=> {
           let sArr=[]
-          sArr.push(company.cname.toLowerCase())
-
+          let regex = /(<([^>]+)>)/ig
+          let des = company.description.replace(regex, ' ').toLowerCase()
+          
+          sArr.push(
+            company.cname.toLowerCase(),
+            ...des.split(' ')
+          )
+          
           for(let tag of company.tags) {
             sArr.push(tag.toLowerCase())
           }
